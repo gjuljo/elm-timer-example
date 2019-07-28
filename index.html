@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Elm Timer Example</title>
+    <script src="index.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script>
+    var tick = 0;
+    
+    var app = Elm.Main.init({
+        node: document.getElementById('root'),
+        flags: tick
+    });
+
+    app.ports.doResetTickFromElm.subscribe(function () {
+        tick = 0;
+        app.ports.doTickFromJavaScript.send(tick);
+    });
+
+    setInterval(function(){
+        tick = tick + 1;
+        app.ports.doTickFromJavaScript.send(tick);
+    }, 1000);
+
+</script>
+</body>
+</html>
