@@ -8,21 +8,12 @@
 <body>
 <div id="root"></div>
 <script>
-    var tick = 0;
-    
     var app = Elm.Main.init({
-        node: document.getElementById('root'),
-        flags: tick
-    });
-
-    app.ports.doResetTickFromElm.subscribe(function () {
-        tick = 0;
-        app.ports.doTickFromJavaScript.send(tick);
+        node: document.getElementById('root')
     });
 
     setInterval(function(){
-        tick = tick + 1;
-        app.ports.doTickFromJavaScript.send(tick);
+        app.ports.doTickFromJavaScript.send(1);
     }, 1000);
 
 </script>

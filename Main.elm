@@ -12,13 +12,13 @@ type alias Model =
 
 initialModel : Model
 initialModel =
-    { currentValue = 99
+    { currentValue = 0
     }
 
 
-init : Int -> ( Model, Cmd Msg )
+init : () -> ( Model, Cmd Msg )
 init flags =
-    ( { initialModel | currentValue = flags }, Cmd.none )
+    ( initialModel, Cmd.none )
 
 
 view : Model -> Html Msg
@@ -38,25 +38,22 @@ type Msg
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Tick time ->
-            ( { model | currentValue = time }, Cmd.none )
+        Tick _ ->
+            ( { model | currentValue = model.currentValue + 1 }, Cmd.none )
 
         Reset ->
-            ( model, doResetTickFromElm () )
+            ( { model | currentValue = 0 }, Cmd.none )
 
 
 port doTickFromJavaScript : (Int -> msg) -> Sub msg
 
 
-port doResetTickFromElm : () -> Cmd msg
-
-
 subscriptions : Model -> Sub Msg
-subscriptions model =
+subscriptions _ =
     doTickFromJavaScript Tick
 
 
-main : Program Int Model Msg
+main : Program () Model Msg
 main =
     Browser.element
         { init = init
