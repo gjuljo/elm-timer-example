@@ -11,11 +11,6 @@
     var app = Elm.Main.init({
         node: document.getElementById('root')
     });
-
-    setInterval(function(){
-        app.ports.doTickFromJavaScript.send(1);
-    }, 1000);
-
 </script>
 </body>
 </html>

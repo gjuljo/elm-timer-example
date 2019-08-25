@@ -1,8 +1,9 @@
-port module Main exposing (main)
+module Main exposing (main)
 
 import Browser
 import Html exposing (..)
 import Html.Events exposing (onClick)
+import Time exposing (every)
 
 
 type alias Model =
@@ -31,7 +32,7 @@ view model =
 
 
 type Msg
-    = Tick Int
+    = Tick Time.Posix
     | Reset
 
 
@@ -45,12 +46,9 @@ update msg model =
             ( { model | currentValue = 0 }, Cmd.none )
 
 
-port doTickFromJavaScript : (Int -> msg) -> Sub msg
-
-
 subscriptions : Model -> Sub Msg
 subscriptions _ =
-    doTickFromJavaScript Tick
+    every 1000 Tick
 
 
 main : Program () Model Msg
